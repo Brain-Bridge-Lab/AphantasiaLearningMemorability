@@ -4,8 +4,8 @@
         <title>Memorability experiment</title>
         
 
-        <link href="jspsych-6.3.1/css/jspsych.css" rel="stylesheet" type="text/css">
-        <script src="jspsych-6.3.1/jspsych.js" type="text/javascript"></script>
+      <link href="jspsych-6.3.1/css/jspsych.css" rel="stylesheet" type="text/css">
+      <script src="jspsych-6.3.1/jspsych.js" type="text/javascript"></script>
       <script src="jspsych-6.3.1/plugins/jspsych-preload.js" type="text/javascript"></script>
       <script src="jspsych-6.3.1/plugins/jspsych-html-keyboard-response.js" type="text/javascript"></script>
       <script src="jspsych-6.3.1/plugins/jspsych-survey-multi-choice.js" type="text/javascript"></script>
@@ -21,6 +21,7 @@
         
 // PART I: WELCOME & INSTRUCTIONS
         /* create timeline array */
+        //various arrays and other needed variables
         var timeline = [];
         var jpData;
         var prolificId;
@@ -30,15 +31,27 @@
         var test_stimuli_shuffled = [];
         var test_stimuli_final = [];
         var test_stimuli_shuffled_strings = [];
+        var answerArray = [];
+        var trueFalseArray = [];
+        var test_stimuli_memory_shuffled = [];
         var outStringStim;
         var outStringInputs;
         var outStringReaction;
+        //Javascript version of HTML input elements, jsPsych overwrites HTML DOM for some reason so this workaround is necessary
         var form = document.createElement("form")
         var inputElement = document.createElement("input");
         var sequenceElement = document.createElement("input");
         var reactionElement = document.createElement("input");
+        var responseMemElement = document.createElement("input");
+        var sequenceMemElement = document.createElement("input");
+        var reactionMemElement = document.createElement("input");
+        var trueFalseMemElement = document.createElement("input");
+        //end elementns
+        //equivalent to setting up form post
         form.method = "POST";
-        form.action = "familiarityratings.php";   
+        form.action = "familiarityratings.php";
+        //equivalent to adding in the ids, names, and style to HTML elements   
+        //start encoding elements
         sequenceElement.id = "stim";
         inputElement.id = "answers";
         reactionElement.id = "reaction";
@@ -48,6 +61,22 @@
         reactionElement.hidden = true;
         sequenceElement.hidden = true;
         inputElement.hidden = true;
+        //end encoding elements
+        //start memory test elements
+        responseMemElement.id = "responseMem";
+        sequenceMemElement.id = "stimMem";
+        reactionMemElement.id = "reactionMem";
+        trueFalseMemElement.id = "trueFalseMem";
+        responseMemElement.name = "responseMemName";
+        sequenceMemElement.name = "stimMemName";
+        reactionMemElement.name = "reactionMemName";
+        trueFalseMemElement.name = "trueFalseMemName";
+        responseMemElement.hidden = true;
+        sequenceMemElement.hidden = true;
+        reactionMemElement.hidden = true;
+        trueFalseMemElement.hidden = true;
+        //end memory test elements
+        
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
@@ -132,7 +161,7 @@ function shuffleArray(array) {
         var test_stimuli_forgettable = [
             {stimulus: "http://wilmabainbridge.com/research/learningmem/ForgScenes90/19_sun_auxibjrgylomwwhl_crop.jpg", key_answer: 'f', text_answer: 'forgettable'},
             {stimulus: "http://wilmabainbridge.com/research/learningmem/ForgScenes90/21_sun_ayizqeiakoltymuc_crop.jpg", key_answer: 'f', text_answer: 'forgettable'},
-            {stimulus: "http://wilmabainbridge.com/research/learningmem/ForgScenes90/24_sun_aiazdbafkaryuikh_crop.jpg", key_answer: 'f', text_answer: 'forgettable'},
+           /* {stimulus: "http://wilmabainbridge.com/research/learningmem/ForgScenes90/24_sun_aiazdbafkaryuikh_crop.jpg", key_answer: 'f', text_answer: 'forgettable'},
             {stimulus: "http://wilmabainbridge.com/research/learningmem/ForgScenes90/27_sun_acpxaistqyimycdc_crop.jpg", key_answer: 'f', text_answer: 'forgettable'},
             {stimulus: "http://wilmabainbridge.com/research/learningmem/ForgScenes90/29_sun_aafblbfkfftldfxp_crop.jpg", key_answer: 'f', text_answer: 'forgettable'},
             {stimulus: "http://wilmabainbridge.com/research/learningmem/ForgScenes90/30_sun_atyhjqokikabkszi_crop.jpg", key_answer: 'f', text_answer: 'forgettable'},
@@ -220,11 +249,11 @@ function shuffleArray(array) {
             {stimulus: "http://wilmabainbridge.com/research/learningmem/ForgScenes90/54_sun_acbtnwalhzdcufvb_crop.jpg", key_answer: 'f', text_answer: 'forgettable'},
             {stimulus: "http://wilmabainbridge.com/research/learningmem/ForgScenes90/54_sun_acwcoqgsueznibgo_crop.jpg", key_answer: 'f', text_answer: 'forgettable'},
             {stimulus: "http://wilmabainbridge.com/research/learningmem/ForgScenes90/54_sun_asnqkkyhilqkxiqm_crop.jpg", key_answer: 'f', text_answer: 'forgettable'},
-             ];
+      */];
           var test_stimuli_memorable = [
             {stimulus: "http://wilmabainbridge.com/research/learningmem/MemScenes90/81_sun_aaatjmlktzymikwf_crop.jpg", key_answer: 'j', text_answer: 'memorable'},
             {stimulus: "http://wilmabainbridge.com/research/learningmem/MemScenes90/81_sun_acjcvzqhwybsucmr_crop.jpg", key_answer: 'j', text_answer: 'memorable'},
-            {stimulus: "http://wilmabainbridge.com/research/learningmem/MemScenes90/81_sun_akuitutqnebhfiqg_crop.jpg", key_answer: 'j', text_answer: 'memorable'},
+         /*   {stimulus: "http://wilmabainbridge.com/research/learningmem/MemScenes90/81_sun_akuitutqnebhfiqg_crop.jpg", key_answer: 'j', text_answer: 'memorable'},
             {stimulus: "http://wilmabainbridge.com/research/learningmem/MemScenes90/81_sun_aqeihowlpdprvqfx_crop.jpg", key_answer: 'j', text_answer: 'memorable'},
             {stimulus: "http://wilmabainbridge.com/research/learningmem/MemScenes90/81_sun_araqywvyndchlswi_crop.jpg", key_answer: 'j', text_answer: 'memorable'},
             {stimulus: "http://wilmabainbridge.com/research/learningmem/MemScenes90/81_sun_ayjkfajqrwawjqrc_crop.jpg", key_answer: 'j', text_answer: 'memorable'},
@@ -312,20 +341,31 @@ function shuffleArray(array) {
             {stimulus: "http://wilmabainbridge.com/research/learningmem/MemScenes90/92_sun_auhkjmgiscerzvng_crop.jpg", key_answer: 'j', text_answer: 'memorable'},
             {stimulus: "http://wilmabainbridge.com/research/learningmem/MemScenes90/93_sun_bksbkxqebrxharpc_crop.jpg", key_answer: 'j', text_answer: 'memorable'},          
             {stimulus: "http://wilmabainbridge.com/research/learningmem/MemScenes90/95_sun_axmeufyrptihxqbn_crop.jpg", key_answer: 'j', text_answer: 'memorable'} 
-        ]; 
+      */];
+        /* This entire section is array manipulation for the two tasks in the experiment*/ 
         shuffleArray(test_stimuli_forgettable);
         shuffleArray(test_stimuli_memorable);
         var forgetLength = test_stimuli_forgettable.length;
-        for (i = 0; i < (forgetLength)/2; i++){
+        for (i = 0; i < (forgetLength)/2; i++){ //grab the first 45 of each array to use as stimuli, add them to an array
           test_stimuli_shuffled[test_stimuli_shuffled.length] = test_stimuli_forgettable.pop();
           test_stimuli_shuffled[test_stimuli_shuffled.length] = test_stimuli_memorable.pop();
         }
-        test_stimuli_final = test_stimuli_shuffled.concat(test_stimuli_forgettable,test_stimuli_memorable);
-        shuffleArray(test_stimuli_final);
-        for (g = 0; g < test_stimuli_shuffled.length; g++){
-          test_stimuli_shuffled_strings[g] = test_stimuli_shuffled[g].stimulus;
+        shuffleArray(test_stimuli_shuffled); //shuffle the array 
+        test_stimuli_memory_shuffled = JSON.parse(JSON.stringify(test_stimuli_shuffled)); //duplicate array for memory test (deep copy)
+        for (j = 0; j < test_stimuli_memory_shuffled.length; j++){ //change the text and key values to a seen/unseen format
+          test_stimuli_memory_shuffled[j].text_answer = 'seen';
+          test_stimuli_memory_shuffled[j].key_answer = 'f';
+          if (j < test_stimuli_forgettable.length){
+            test_stimuli_forgettable[j].text_answer = 'unseen';
+            test_stimuli_memorable[j].text_answer = 'unseen';
+            test_stimuli_forgettable[j].key_answer = 'j';
+            test_stimuli_memorable[j].key_answer = 'j';
+          }
         }
-      
+
+        test_stimuli_memory_test = test_stimuli_memory_shuffled.concat(test_stimuli_forgettable,test_stimuli_memorable); //add in remaining stimuli as foils for memory test
+        shuffleArray(test_stimuli_memory_test); //shuffle memory test array
+      //end array manipulation
         
         /* fixation stimulus presentation */
         var fixation = {
@@ -470,7 +510,7 @@ function shuffleArray(array) {
               }
               },
             show_stim_with_feedback: true,
-            feedback_duration: 3000 
+            feedback_duration: 3000
         };
         var test_test = {
           type: 'categorize-image',
@@ -479,9 +519,14 @@ function shuffleArray(array) {
           text_answer: jsPsych.timelineVariable('text_answer'),
           prompt: '<p style="color:white;">Placeholder</p>',
           choices: ['f', 'j'],
-          show_stim_with_feedback: false
-          //find a way to log answers (can try an answer array and then have a true/false array)
-
+          correct_text: function(){
+              var stim = '<p style="color:white;">Placeholder</p>';
+          },
+          incorrect_text: function(){
+              var stim = '<p style="color:white;">Placeholder</p>';
+          },
+          show_stim_with_feedback: false,
+          feedback_duration: 0
         }
 
         var test_learn_procedure = {
@@ -497,6 +542,26 @@ function shuffleArray(array) {
         };*/
 
         timeline.push(test_learn_procedure);
+        var instructionsMemoryTest = {
+            type: "html-keyboard-response",
+            stimulus: `
+            <p>Time for the Part 2 of the Task!</p>
+            <p>In this portion of the experiment, you will see many different images of scenes. Some of these images you have seen before in the earlier portion of the experiment, some you have not.</p>
+            <p>On each trial, you will see an image. If you think you <strong> have </strong> seen the image in the previous portion of the study, press the letter <strong>F</strong> on the keyboard. If you think you <strong>have not</strong> seen the image in the previous portion of the study, press the letter <strong>J</strong>.</p>
+            <p>We are interested in seeing if people can learn the difference between memorable and forgettable images, but unlike last time, you will not recieve feedback after each image, only a final score at the end. If you get over <strong>80%</strong> correct, you will recieve a small bonus payment.</p>
+            <p>There will be 3 breaks during the experiment. There will also be a few trials to check that you are paying attention, where you will select whether the image is an <strong>inside</strong> or an <strong>outside</strong> scene.</p>
+            <p>Press any key to begin.</p>
+            `,
+            post_trial_gap: 150 // milliseconds
+        };
+        timeline.push(instructionsMemoryTest);
+
+        var memoryTestProcedure = {
+          timeline: [fixation, break_conditional, attn_conditional, test_test],
+          timeline_variables: test_stimuli_memory_test,
+          randomize_order: false
+        }
+        timeline.push(memoryTestProcedure);
         
         var post_questions = {
           type: "survey-text",
@@ -560,23 +625,66 @@ function shuffleArray(array) {
 
 function Advance(){
   prolificId = jpData[1].response.PID;
-  for (k = 6; k < (jpData.length)-2; k = k+2){
-    imageSequence.push(jpData[k].stimulus, "#");
-    answerInputs.push(jpData[k].response, "#");
-    reactionTime.push(jpData[k].rt, "#");
+  var isEncode = true;
+  var isMem = true;
+  var k = 0;
+  var q = 0;
+  var memImgSequence = [];
+  var memResponses = [];
+  var memReactions = [];
+  var memTrueFalse = [];
+  while (isEncode == true){
+    if (jpData[k].internal_node_id.includes('0.0-5.0-3')){ //internal node of the response for encoding portion
+      imageSequence.push(jpData[k].stimulus, "#");
+      answerInputs.push(jpData[k].response, "#");
+      reactionTime.push(jpData[k].rt, "#");
+    }
+    if (jpData[k].internal_node_id.includes('0.0-5.0-3.1')){ //replace this with '0.0-5.0-3.89' for full trials final number is number of shown images-1  
+      isEncode = false;
+    }
+    k++;
   }
+  while (isMem == true){
+    if (jpData[q].internal_node_id.includes('0.0-7.0-3')){
+      memImgSequence.push(jpData[q].stimulus, "#");
+      memResponses.push(jpData[q].response, "#");
+      memReactions.push(jpData[q].rt, "#");
+      memTrueFalse.push(jpData[q].correct, "#");
+    }
+    if (jpData[q].internal_node_id.includes('0.0-7.0-3.3')){ //replace numbers wuth '0.0-7.0-3.89' for full trial count
+      isMem = false;
+    }
+    q++;
+  }
+  //join elements into one string
   outStringStim = imageSequence.join();
   outStringStim = outStringStim.replaceAll(',','');
   outStringInputs = answerInputs.join();
   outStringInputs = outStringInputs.replaceAll(',','');
   outStringReaction = reactionTime.join();
   outStringReaction = outStringReaction.replaceAll(',','');
+  var outStringStimMem = memImgSequence.join();
+  outStringStimMem = outStringStimMem.replaceAll(',','');
+  var outStringResponsesMem = memResponses.join();
+  outStringResponsesMem = outStringResponsesMem.replaceAll(',','');
+  var outStringReactionMem = memReactions.join();
+  outStringReactionMem = outStringReactionMem.replaceAll(',','');
+  var outStringTrueFalseMem = memTrueFalse.join();
+  outStringTrueFalseMem = outStringTrueFalseMem.replaceAll(',','');
   inputElement.value = outStringInputs;
   sequenceElement.value = outStringStim;
   reactionElement.value = outStringReaction;
+  responseMemElement.value = outStringResponsesMem;
+  sequenceMemElement.value = outStringStimMem;
+  reactionMemElement.value = outStringReactionMem;
+  trueFalseMemElement.value = outStringTrueFalseMem;
   form.appendChild(inputElement);
   form.appendChild(sequenceElement);
   form.appendChild(reactionElement);
+  form.appendChild(responseMemElement);
+  form.appendChild(sequenceMemElement);
+  form.appendChild(reactionMemElement);
+  form.appendChild(trueFalseMemElement);
   document.body.appendChild(form);
   
   toPHP();

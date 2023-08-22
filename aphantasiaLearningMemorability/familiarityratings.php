@@ -66,11 +66,15 @@
 	$st = testinput($_POST["stimName"]);
 	$re = testinput($_POST["reactionName"]);
 	$an = testinput($_POST["answersName"]);
+	$sm = testinput($_POST["stimMemName"]);
+	$rem = testinput($_POST["responseMemName"]);
+	$rm = testinput($_POST["reactionMemName"]);
+	$tfm = testinput($_POST["trueFalseMemName"]);
 		// Note: have to make osiq array into a string to see results on server
 
 // Now this is the main line! This inserts the data into the database!
 // The first set of items in () are the names of the columns in the MySQL database. While they are the same as the names of inputs from example4.html, this is just to keep the names consistent when analyzing the data -- they don't have to be the same! The second set of items (after VALUES) are the values we just extracted that we're uploading into each of the columns. We're essentially creating a new row in the database.
-$sql = "INSERT INTO testTable (stimSequence,answerSequence,responseTimeSequence) VALUES ('$st','$re','$an')";
+$sql = "INSERT INTO testTable (stimSequence,answerSequence,responseTimeSequence,memoryTestStim,memoryTestResponse,memoryTestReaction,memoryTestCorrect) VALUES ('$st','$an','$re','$sm','$rem','$rm','$tfm')";
 
 // You can use PHP to interact with the webpage. It can also do things like work with variables, use logic, and do basic math. Here, if it successfully sends the data, it will post a thank you. If it doesn't, it will return an error.
 
